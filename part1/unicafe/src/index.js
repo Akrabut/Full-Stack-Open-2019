@@ -7,7 +7,6 @@ const Button = (props) => (
   </button>
 )
 
-
 const Buttons = (props) => {
   return (
     <div>
@@ -19,10 +18,14 @@ const Buttons = (props) => {
 }
 
 const AnecdoteButton = (props) => {
-  const randomAnecdote = () => props.anecdotes[Math.floor(Math.random() * props.anecdotes.length)]
+  let i = Math.floor(Math.random() * props.anecdotes.length)
+  while (i === props.anecdotes.indexOf(props.anecdote)) {
+    i = Math.floor(Math.random() * props.anecdotes.length)
+  }
+
   return (
     <div>
-      <Button handleClick={() => props.setAnecdote(randomAnecdote())} text='Press for a random anecdote!' />
+      <Button handleClick={() => props.setAnecdote(props.anecdotes[i])} text='Press for a random anecdote!' />
     </div>
   )
 }
@@ -30,9 +33,20 @@ const AnecdoteButton = (props) => {
 const DisplayAnecdote = (props) => {
   if (!props.anecdote) return ''
 
+  const getIndex = props.anecdotes.indexOf(props.anecdote)
   return (
     <div>
+      <br></br>
+      <br></br>
       {props.anecdote}
+      <br></br>
+      Anecdote voted {props.votes[getIndex]} times
+      <br></br>
+      <Button handleClick={() => {
+        const arr = [...props.votes]
+        arr[getIndex]++
+        return props.setVote(arr)}} 
+        text='Vote for this anecdote' />
     </div>
   )
 }
@@ -46,8 +60,7 @@ const Statistic = (props) => {
 }
 
 const Statistics = (props) => {
-  const totalFunc = () => props.good + props.neutral + props.bad
-  const total = totalFunc()
+  const total = props.good + props.neutral + props.bad
 
   return (
     <div>
@@ -92,6 +105,8 @@ const App = () => {
     '8 anecdotes are more than enough for this exercise'
   ]
 
+  const [votes, setVote] = useState(new Array(anecdotes.length).fill(0))
+
   return (
     <div>
       <h2>Give feedback</h2>
@@ -99,9 +114,11 @@ const App = () => {
         setGood={setGood} setNeutral={setNeutral} setBad={setBad}></Buttons>
       <h2>Statistics</h2>
       <Display good={good} neutral={neutral} bad={bad}></Display>
+      <h2>Top anecdote of the day:</h2>
+      {/* TODO: ADD THE TOP ANECDOTE */}
       <h2>A random anecdote</h2>
-      <AnecdoteButton anecdotes={anecdotes} setAnecdote={setAnecdote}></AnecdoteButton>
-      <DisplayAnecdote anecdote={anecdote}></DisplayAnecdote>
+      <AnecdoteButton anecdote={anecdote} anecdotes={anecdotes} setAnecdote={setAnecdote}></AnecdoteButton>
+      <DisplayAnecdote anecdote={anecdote} anecdotes={anecdotes} votes={votes} setVote={setVote}></DisplayAnecdote>
     </div>
   )
 }
