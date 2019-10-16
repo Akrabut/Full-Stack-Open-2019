@@ -7,16 +7,32 @@ const Button = (props) => (
   </button>
 )
 
+
 const Buttons = (props) => {
-  const handleClick = (param, func) => {
-    func(param)
-  }
+  return (
+    <div>
+      <Button handleClick={() => props.setGood(props.good + 1)} text='good' />
+      <Button handleClick={() => props.setNeutral(props.neutral + 1)} text='neutral' />
+      <Button handleClick={() => props.setBad(props.bad + 1)} text='bad' />
+    </div>
+  )
+}
+
+const AnecdoteButton = (props) => {
+  const randomAnecdote = () => props.anecdotes[Math.floor(Math.random() * props.anecdotes.length)]
+  return (
+    <div>
+      <Button handleClick={() => props.setAnecdote(randomAnecdote())} text='Press for a random anecdote!' />
+    </div>
+  )
+}
+
+const DisplayAnecdote = (props) => {
+  if (!props.anecdote) return ''
 
   return (
     <div>
-      <Button handleClick={() => handleClick(props.good + 1, props.setGood)} text='good' />
-      <Button handleClick={() => handleClick(props.neutral + 1, props.setNeutral)} text='neutral' />
-      <Button handleClick={() => handleClick(props.bad + 1, props.setBad)} text='bad' />
+      {props.anecdote}
     </div>
   )
 }
@@ -50,7 +66,6 @@ const Statistics = (props) => {
 }
 
 const Display = (props) => {
-
   if (!props.good && !props.neutral && !props.bad) return 'No feedback given'
 
   return (
@@ -64,17 +79,29 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [anecdote, setAnecdote] = useState(null)
 
-  
+  const anecdotes = [
+    'React components should not be nested within other components',
+    `'Akatsuki' means 'dawn' in Japanese`,
+    'These are just random anecdotes',
+    'One of the space probes that circles around the moon is named Artemis, after the moon goddess in the Greek mythology',
+    `A chinese spacecraft that has recently landed on the moon is named Chan'ge, after the Chinese goddess of the moon`,
+    `Why are there only godesses of the moon and not gods? that's unfair`,
+    `'Mehubar' means connected in Hebrew`,
+    '8 anecdotes are more than enough for this exercise'
+  ]
 
   return (
     <div>
       <h2>Give feedback</h2>
       <Buttons good={good} neutral={neutral} bad={bad}
-        setGood={setGood} setNeutral={setNeutral} setBad={setBad}
-        ></Buttons>
+        setGood={setGood} setNeutral={setNeutral} setBad={setBad}></Buttons>
       <h2>Statistics</h2>
       <Display good={good} neutral={neutral} bad={bad}></Display>
+      <h2>A random anecdote</h2>
+      <AnecdoteButton anecdotes={anecdotes} setAnecdote={setAnecdote}></AnecdoteButton>
+      <DisplayAnecdote anecdote={anecdote}></DisplayAnecdote>
     </div>
   )
 }
