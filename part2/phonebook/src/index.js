@@ -4,16 +4,21 @@ import Persons from './components/persons'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ])
+  //const set = new Set().add('Arto Hellas')
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }])
+  const [personSet, setSet] = useState(new Set().add('Arto Hellas'))
   const [newName, setNewName] = useState('')
 
   // called upon submission, prevents default behavior (for forms - refresh upon submission)
   // and appends the newName to the persons array, then resets newName
   const addPerson = (event) => {
     event.preventDefault()
+    if (personSet.has(newName)) {
+      alert(`${newName} is already in the phonebook`)
+      return
+    }
     setPersons(persons.concat({name: newName}))
+    setSet(personSet.add(newName))
     setNewName('')
   }
 
