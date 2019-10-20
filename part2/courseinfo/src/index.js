@@ -5,7 +5,7 @@ const Header = props =>
   <h1>{props.course}</h1>
 
 const Total = props => {
-  const total = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises
+  const total = props.parts.reduce((sum, part) => sum + part.exercises, 0)
 
   return <p>Total of {total} exercises</p>
 }
@@ -62,6 +62,7 @@ const App = () => {
   return (
     <div>
       <Course course={course} />
+      <Total parts={course.parts}></Total>
     </div>
   )
 }
