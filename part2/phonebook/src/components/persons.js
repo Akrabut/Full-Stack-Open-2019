@@ -8,7 +8,7 @@ const generateId = () => {
   return setTimeout(getNum, 1)
 }
 
-const Person = props => props.person.name
+const Person = props => `${props.person.name} - ${props.person.number}`
 
 const Persons = (props) => (
   <ul>
