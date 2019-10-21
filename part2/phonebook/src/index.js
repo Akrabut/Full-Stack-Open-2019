@@ -4,7 +4,6 @@ import Persons from './components/persons'
 
 
 const App = () => {
-  //const set = new Set().add('Arto Hellas')
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
@@ -37,10 +36,6 @@ const App = () => {
     setNewNumber('')
   }
 
-  const search = (event) => {
-    event.preventDefault()
-  }
-
   // takes an event as an argument (as it responds on an onChange event)
   // sets newName with the event.target (the form).value which is basically the input in the text field
   // TODO: im not really sure how this part works
@@ -59,16 +54,14 @@ const App = () => {
     setToSearch(event.target.value)
   }
 
-  let filteredPersons = persons.filter(person => person.name.toLowerCase().includes(toSearch))
+  let filteredPersons = persons.filter(person => person.name.toLowerCase().includes(toSearch.toLowerCase()))
 
   return (
     <div>
       <h2>Search</h2>
-      <form onSubmit={search}>
-        <div>
-          enter name:<input value={toSearch} onChange={handleSearchChange}></input>
-        </div>
-      </form>
+      <div>
+        enter name:<input value={toSearch} onChange={handleSearchChange}></input>
+      </div>
       <h2>Add new contact</h2>
       {/* calls the addPerson callback upon submission */}
       <form onSubmit={addPerson}>
