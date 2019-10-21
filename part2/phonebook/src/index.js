@@ -1,26 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import axios from 'axios'
 import Persons from './components/persons'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' },
-    { name: 'Lel Mistios', number: '82-51-0379931'}
-  ])
-  const [personSet, setSet] = useState(new Set()
-    .add('Arto Hellas')
-    .add('Ada Lovelace')
-    .add('Dan Abramov')
-    .add('Mary Poppendieck')
-    .add('Lel Mistios')
-    )
+  const [persons, setPersons] = useState([])
+  const [personSet, setSet] = useState(new Set())
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [toSearch, setToSearch] = useState('')
+
+  function init_set(response) {
+    const set = new Set()
+    response.data.forEach((person) => set.add(person.name))
+    setSet(set)
+  }
+
+  useEffect(() => {
+    console.log('in use effect');
+    axios.get('http://localhost:3001/persons')
+      .then((response) => {
+        setPersons(response.data)
+        init_set(response)
+        console.log('persons set');
+    })
+  }, [])
 
   // called upon submission, prevents default behavior (for forms - refresh upon submission)
   // and appends the newName to the persons array, then resets newName
