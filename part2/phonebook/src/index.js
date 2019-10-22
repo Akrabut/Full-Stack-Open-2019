@@ -18,12 +18,26 @@ const App = () => {
   useEffect(() => {
       console.log('in use effect');
       Comms.read()
-        .then((persons) => {
-          setPersons(persons)
-          init_set(persons)
+        .then((personsParam) => {
+          console.log(personsParam)
+          setPersons(personsParam)
+          console.log('hi');
+          init_set(personsParam)
           console.log('persons set');
         })
+        .catch(error => console.log(error))
   }, [])
+
+  const changeNumber = person => {
+    if (!window.confirm(`${person.name} is already in the phonebook, replace the old number with a new one?`)) return
+    Comms.patch({...person, number: newNumber})
+      .then(retPerson => {
+        setPersons(persons.map(p => retPerson.id === p.id ? retPerson : p))
+        console.log('put operation completed');
+        setNewName('')
+        setNewNumber('')
+    })
+  }
 
   // called upon submission, prevents default behavior (for forms - refresh upon submission)
   // and appends the newName to the persons array, then resets newName
@@ -31,6 +45,8 @@ const App = () => {
     event.preventDefault()
     console.log(event);
     if (personSet.has(newName)) {
+      const person = persons.find(person => person.name === newName)
+      if (newNumber !== person.number) return changeNumber(person)
       return alert(`${newName} is already in the phonebook`)
     }
     Comms.create({name: newName, number: newNumber})
@@ -89,8 +105,6 @@ const App = () => {
     </div>
   )
 }
-
-export default App
 
 ReactDOM.render(
   <App />,

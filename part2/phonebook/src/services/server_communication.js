@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/persons'
 
-const read = (id='') => {
+function read(id='') {
   return (
     axios.get(`${baseUrl}/${id}`)
       .then(response => response.data)
@@ -18,4 +18,22 @@ function create(person) {
   )
 }
 
-export default {read, create}
+function patch(person) {
+  console.log(person)
+  return (
+    axios.patch(`${baseUrl}/${person.id}`, person)
+      .then(request => request.data)
+      .catch(error => console.log(error))
+  )
+}
+
+function destroy(id) {
+  return (
+    axios.delete(`${baseUrl}/${id}`)
+      .then(response => console.log(`person with id = ${id} deleted`))
+      .catch(error => console.log(error))
+  )
+}
+
+export default {read, create, patch}
+export {destroy}
