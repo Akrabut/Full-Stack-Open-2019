@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
 import Persons from './components/persons'
+import Comms from './services/server_communication'
 
 
 const App = () => {
@@ -11,20 +11,18 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [toSearch, setToSearch] = useState('')
 
-  function init_set(response) {
-    const set = new Set()
-    response.data.forEach((person) => set.add(person.name))
-    setSet(set)
+  function init_set(persons) {
+    setSet(persons.reduce((set, person) => set.add(person.name), new Set()))
   }
 
   useEffect(() => {
-    console.log('in use effect');
-    axios.get('http://localhost:3001/persons')
-      .then((response) => {
-        setPersons(response.data)
-        init_set(response)
-        console.log('persons set');
-    })
+      console.log('in use effect');
+      Comms.read()
+        .then((persons) => {
+          setPersons(persons)
+          init_set(persons)
+          console.log('persons set');
+        })
   }, [])
 
   // called upon submission, prevents default behavior (for forms - refresh upon submission)
@@ -35,10 +33,14 @@ const App = () => {
     if (personSet.has(newName)) {
       return alert(`${newName} is already in the phonebook`)
     }
-    setPersons(persons.concat({name: newName, number: newNumber}))
-    setSet(personSet.add(newName))
-    setNewName('')
-    setNewNumber('')
+    Comms.create({name: newName, number: newNumber})
+      .then((person) => {
+        setPersons(persons.concat(person))
+        setSet(personSet.add(person.name))
+        setNewName('')
+        setNewNumber('')
+      })
+    
   }
 
   // takes an event as an argument (as it responds on an onChange event)
