@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Persons from './components/persons'
+import Notification from './components/notification'
 import Comms from './services/server_communication'
 
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [toSearch, setToSearch] = useState('')
+  const [message, setMessage] = useState('')
 
   function init_set(persons) {
     setSet(persons.reduce((set, person) => set.add(person.name), new Set()))
@@ -28,12 +30,18 @@ const App = () => {
         .catch(error => console.log(error))
   }, [])
 
+  const displayMessage = (message) => {
+    setMessage(message)
+    setTimeout(() => setMessage(''),  5000)
+  }
+
   const changeNumber = person => {
     if (!window.confirm(`${person.name} is already in the phonebook, replace the old number with a new one?`)) return
     Comms.patch({...person, number: newNumber})
       .then(retPerson => {
         setPersons(persons.map(p => retPerson.id === p.id ? retPerson : p))
         console.log('put operation completed');
+        displayMessage(`Number changed to ${newNumber}`)
         setNewName('')
         setNewNumber('')
     })
@@ -53,10 +61,10 @@ const App = () => {
       .then((person) => {
         setPersons(persons.concat(person))
         setSet(personSet.add(person.name))
+        displayMessage(`${person.name} added`)
         setNewName('')
         setNewNumber('')
       })
-    
   }
 
   // takes an event as an argument (as it responds on an onChange event)
@@ -81,8 +89,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Search</h2>
+      <Notification message={message}></Notification>
       <div>
+        <h2>Search</h2>
         enter name:<input value={toSearch} onChange={handleSearchChange}></input>
       </div>
       <h2>Add new contact</h2>
