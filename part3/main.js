@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 let persons = [
   {
@@ -31,6 +32,7 @@ let persons = [
 
 const app = express();
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 
 app.get('/api/', (req, res) => {
   res.send('<h1>Hello world</h1>');
