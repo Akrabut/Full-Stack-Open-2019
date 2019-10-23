@@ -70,8 +70,16 @@ app.delete('/api/persons/:id', (req, res) => {
   res.status(204).end();
 });
 
+function nameExists(name) {
+  return persons.find((person) => person.name === name);
+}
+
 app.post('/api/persons', (req, res) => {
-  if (!req.body || !req.body.name || !req.body.number) res.status(400).end();
+  if (!req.body || !req.body.name || !req.body.number) {
+    res.status(400).json({ error: 'person must have name and number' });
+  }
+  // RESPONSE CODE 418 AKA I'M A TEAPOT
+  if (nameExists(req.body.name)) res.status(418).send(`${req.body.name} is already in the phonebook`);
   const person = {
     name: req.body.name,
     number: req.body.number,
