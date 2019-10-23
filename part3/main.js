@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const persons = [
+let persons = [
   {
     name: 'Arto Hellas',
     number: '040-123456',
@@ -37,21 +37,51 @@ app.get('/api/', (req, res) => {
 });
 
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
-})
+  res.json(persons);
+});
 
 app.get('/api/info', (req, res) => {
-  const date = new Date()
+  const date = new Date();
   res.send(
     `<div>
       Phonebook has info for ${persons.length} people
       <br></br>
       ${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}
-    </div>`
-  )
-})
+    </div>`,
+  );
+});
 
-const PORT = 3001
+function isValidId(req, res) {
+  const id = Number(req.params.id);
+  // eslint-disable-next-line no-restricted-globals
+  return (isNaN(id) ? res.status(400).end() : id);
+}
+
+app.get('/api/persons/:id', (req, res) => {
+  const id = isValidId(req, res);
+  const personToRet = persons.find((person) => person.id === id);
+  if (!personToRet) res.status(404).end();
+  res.json(personToRet);
+});
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = isValidId(req, res);
+  persons = persons.filter((person) => person.id !== id);
+  res.status(204).end();
+});
+
+app.post('/api/persons', (req, res) => {
+  if (!req.body || !req.body.name || !req.body.number) res.status(400).end();
+  const person = {
+    name: req.body.name,
+    number: req.body.number,
+    id: Math.floor((Math.random() + 1) * 1000000),
+  };
+  persons.push(person);
+  res.json(person);
+});
+
+const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
