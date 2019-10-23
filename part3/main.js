@@ -40,6 +40,16 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+app.get('/api/info', (req, res) => {
+  const date = new Date()
+  res.send(
+    `<div>
+      Phonebook has info for ${persons.length} people
+      <br></br>
+      ${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}
+    </div>`
+  )
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
