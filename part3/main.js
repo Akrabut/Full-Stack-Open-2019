@@ -7,12 +7,11 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const app = express();
+app.use(express.static('build'));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('build'));
 
 morgan.token('body', (req) => JSON.stringify(req.body) || '|');
-
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 app.get('/', (req, res) => {
@@ -20,6 +19,8 @@ app.get('/', (req, res) => {
 });
 
 const mongoose = require('mongoose');
+
+mongoose.set('useFindAndModify', false);
 const Person = require('./models/person');
 
 async function getAll() {
@@ -47,26 +48,32 @@ app.get('/api/info', async (req, res) => {
 });
 
 // function isValidId(req, res) {
-//   const id = Number(req.params.id);
-//   // eslint-disable-next-line no-restricted-globals
-//   return (isNaN(id) ? res.status(400).end() : id);
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//     res.status(400).send({ error: 'malformatted id' });
+//     return false;
+//   }
+//   return true;
 // }
 
-app.get('/api/persons/:id', (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) res.status(400).end();
+app.get('/api/persons/:id', (req, res, next) => {
+  // if (!isValidId(req, res)) return;
   Person.findById(req.params.id)
     .then(person => {
       person
         ? res.json(person.toJSON())
         : res.status(404).end();
     })
-    .catch(error => console.log(error));
+    .catch(error => next(error));
 });
 
-app.delete('/api/persons/:id', (req, res) => {
-  const id = isValidId(req, res);
-  persons = persons.filter((person) => person.id !== id);
-  res.status(204).end();
+app.delete('/api/persons/:id', (req, res, next) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      result
+        ? res.status(204).send('Deleted successfully')
+        : res.status(404).end();
+    })
+    .catch(error => next(error));
 });
 
 function nameExists(name) {
@@ -87,6 +94,22 @@ app.post('/api/persons', async (req, res) => {
   await person.save();
   res.json(person);
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(418).send({ error: 'unknown endpoint' });
+};
+
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
 
 const { PORT } = process.env;
 app.listen(PORT, () => {
