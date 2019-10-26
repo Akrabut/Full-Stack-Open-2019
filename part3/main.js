@@ -56,7 +56,6 @@ app.get('/api/info', async (req, res) => {
 // }
 
 app.get('/api/persons/:id', (req, res, next) => {
-  // if (!isValidId(req, res)) return;
   Person.findById(req.params.id)
     .then(person => {
       person
@@ -76,23 +75,39 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch(error => next(error));
 });
 
-function nameExists(name) {
-  return persons.find((person) => person.name === name);
-}
-
-app.post('/api/persons', async (req, res) => {
+function validateBody(req, res) {
   if (!req.body || !req.body.name || !req.body.number) {
     res.status(400).json({ error: 'person must have name and number' });
   }
-  // RESPONSE CODE 418 AKA I'M A TEAPOT
-  // if (nameExists(req.body.name)) res.status(418).send(`${req.body.name} is already in the phonebook`);
-  const person = new Person({
-    name: req.body.name,
-    number: req.body.number,
-    date: new Date(),
-  });
-  await person.save();
-  res.json(person);
+}
+
+app.post('/api/persons', async (req, res, next) => {
+  try {
+    validateBody(req, res);
+    const person = new Person({
+      name: req.body.name,
+      number: req.body.number,
+      date: new Date(),
+    });
+    await person.save();
+    res.json(person.toJSON());
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.patch('/api/persons/:id', async (req, res, next) => {
+  try {
+    validateBody(req, res);
+    const person = {
+      name: req.body.name,
+      number: req.body.number,
+    };
+    const updatedPerson = await Person.findByIdAndUpdate(req.params.id, person, { new: true });
+    res.json(updatedPerson.toJSON());
+  } catch (error) {
+    next(error);
+  }
 });
 
 const unknownEndpoint = (request, response) => {
