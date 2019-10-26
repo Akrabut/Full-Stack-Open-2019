@@ -1,9 +1,9 @@
 /* eslint-disable arrow-parens */
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
-  console.log('give password as argument')
-  process.exit(1)
+  console.log('give password as argument');
+  process.exit(1);
 }
 
 const password = process.argv[2];
@@ -20,24 +20,23 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema);
 
-async function get() {
-  console.log('phonebook:');
-  (await Person.find({})).forEach(person => console.log(`${person.name} - ${person.number}`));
-  mongoose.connection.close();
-  process.exit(1);
-}
+// async function get() {
+//   console.log('phonebook:');
+//   (await Person.find({})).forEach(person => console.log(`${person.name} - ${person.number}`));
+//   mongoose.connection.close();
+//   process.exit(1);
+// }
 
 if (process.argv.length === 3) {
-  // DOES NOT WORK
   Person.find({})
     .then(persons => {
       console.log('phonebook:');
       persons.forEach(person => console.log(`${person.name} - ${person.number}`));
       mongoose.connection.close();
+      process.exit(1);
     })
-    .catch(error => console.log(error));  
-  // WORKS
-  get();
+    .catch(error => console.log(error));
+  // get();
 }
 
 if (process.argv.length === 5) {
