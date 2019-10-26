@@ -82,6 +82,7 @@ app.post('/api/persons', async (req, res) => {
   const person = new Person({
     name: req.body.name,
     number: req.body.number,
+    date: new Date(),
   });
   await person.save();
   res.json(person);

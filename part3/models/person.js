@@ -13,6 +13,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const personSchema = new mongoose.Schema({
   name: String,
   number: String,
+  date: Date,
 });
 
 personSchema.set('toJSON', {
@@ -20,6 +21,7 @@ personSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    delete returnedObject.date;
   },
 });
 
