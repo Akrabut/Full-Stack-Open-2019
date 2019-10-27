@@ -11,7 +11,7 @@ app.use(express.static('build'));
 app.use(cors());
 app.use(bodyParser.json());
 
-morgan.token('body', (req) => JSON.stringify(req.body) || '|');
+morgan.token('body', (req) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 app.get('/', (req, res) => {
@@ -121,7 +121,7 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message);
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' });
-  } 
+  }
   if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message });
   }
