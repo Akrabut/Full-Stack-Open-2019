@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [toSearch, setToSearch] = useState('')
   const [message, setMessage] = useState('')
+  const [color, setColor] = useState('')
 
   function init_set(persons) {
     setSet(persons.reduce((set, person) => set.add(person.name), new Set()))
@@ -23,15 +24,17 @@ const App = () => {
         .then((personsParam) => {
           console.log(personsParam)
           setPersons(personsParam)
-          console.log('hi');
           init_set(personsParam)
           console.log('persons set');
         })
         .catch(error => console.log(error))
   }, [])
 
-  const displayMessage = (message) => {
+  const displayMessage = (message, color) => {
     setMessage(message)
+    setColor(color)
+    setNewName('')
+    setNewNumber('')
     setTimeout(() => setMessage(''),  5000)
   }
 
@@ -41,10 +44,11 @@ const App = () => {
       .then(retPerson => {
         setPersons(persons.map(p => retPerson.id === p.id ? retPerson : p))
         console.log('put operation completed');
-        displayMessage(`Number changed to ${newNumber}`)
+        displayMessage(`Number changed to ${newNumber}`, 'green')
         setNewName('')
         setNewNumber('')
     })
+      .catch(error => displayMessage(error.response.data.error, 'red'))
   }
 
   // called upon submission, prevents default behavior (for forms - refresh upon submission)
@@ -61,10 +65,11 @@ const App = () => {
       .then((person) => {
         setPersons(persons.concat(person))
         setSet(personSet.add(person.name))
-        displayMessage(`${person.name} added`)
+        displayMessage(`${person.name} added`, 'green')
         setNewName('')
         setNewNumber('')
       })
+      .catch(error => displayMessage(error.response.data.error, 'red'))
   }
 
   // takes an event as an argument (as it responds on an onChange event)
@@ -89,7 +94,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={message}></Notification>
+      <Notification message={message} color={color}></Notification>
       <div>
         <h2>Search</h2>
         enter name:<input value={toSearch} onChange={handleSearchChange}></input>

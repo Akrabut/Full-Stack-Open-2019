@@ -3,7 +3,7 @@ import React from 'react'
 const Notification = (props) => {
 
   const style = {
-    color: 'green',
+    color: props.color,
     background: 'lightgrey',
     fontSize: '20',
     borderStyle: 'solid',

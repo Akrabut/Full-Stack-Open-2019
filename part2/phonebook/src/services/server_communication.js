@@ -14,7 +14,7 @@ function create(person) {
   return (
     axios.post(baseUrl, person)
       .then(response => response.data)
-      .catch(error => console.log(error))
+      // .catch(error => error)
   )
 }
 
@@ -23,7 +23,7 @@ function patch(person) {
   return (
     axios.patch(`${baseUrl}/${person.id}`, person)
       .then(request => request.data)
-      .catch(error => console.log(error))
+      // .catch(error => console.log(error))
   )
 }
 

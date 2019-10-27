@@ -77,13 +77,14 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 function validateBody(req, res) {
   if (!req.body || !req.body.name || !req.body.number) {
-    res.status(400).json({ error: 'person must have name and number' });
+    return res.status(400).json({ error: 'person must have name and number' });
   }
+  return false;
 }
 
 app.post('/api/persons', async (req, res, next) => {
   try {
-    validateBody(req, res);
+    if (validateBody(req, res)) return;
     const person = new Person({
       name: req.body.name,
       number: req.body.number,
@@ -98,7 +99,7 @@ app.post('/api/persons', async (req, res, next) => {
 
 app.patch('/api/persons/:id', async (req, res, next) => {
   try {
-    validateBody(req, res);
+    if (validateBody(req, res)) return;
     const person = {
       name: req.body.name,
       number: req.body.number,
@@ -120,6 +121,9 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message);
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' });
+  } 
+  if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message });
   }
   next(error);
 };
