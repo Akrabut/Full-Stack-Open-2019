@@ -33,17 +33,17 @@ describe('highest amount of likes', () => {
       author: 'Edsger W. Dijkstra',
       url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
       likes: 5,
-      __v: 0
+      __v: 0,
     },
     {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
-      likes: 12
+      likes: 12,
     },
     {
       title: 'Some weird title',
       author: 'Some weird guy',
-      likes: 39
+      likes: 39,
     }
   ];
 
@@ -52,8 +52,25 @@ describe('highest amount of likes', () => {
     expect(result).toEqual({
       title: 'Some weird title',
       author: 'Some weird guy',
-      likes: 39
+      likes: 39,
+    });
+  });
+
+  test('author with highest amount of blogs', () => {
+    const result = listHelper.mostBlogs(listWithBlogs);
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 2,
+    });
+  });
+
+  test('author with amount of likes', () => {
+    const result = listHelper.mostLikes(listWithBlogs);
+    expect(result).toEqual({
+      author: 'Some weird guy',
+      likes: 39,
     });
   });
 });
+
 

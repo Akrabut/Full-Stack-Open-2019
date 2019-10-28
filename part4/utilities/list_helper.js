@@ -16,8 +16,42 @@ const favoriteBlog = blogs => {
   }, blogs[0]);
 };
 
+function getMax(map, maxToGet) {
+  const max = {};
+  max[maxToGet] = 0;
+  map.forEach((val, key) => {
+    if (val > max[maxToGet]) {
+      max.author = key;
+      max[maxToGet] = val;
+    }
+  });
+  return max;
+}
+
+const mostBlogs = blogs => {
+  const map = blogs.reduce((blogMap, blog) => {
+    blogMap.has(blog.author)
+      ? blogMap.set(blog.author, blogMap.get(blog.author) + 1)
+      : blogMap.set(blog.author, 1);
+    return blogMap;
+  }, new Map());
+  return getMax(map, 'blogs');
+};
+
+const mostLikes = blogs => {
+  const map = blogs.reduce((blogMap, blog) => {
+    blogMap.has(blog.author)
+      ? blogMap.set(blog.author, blogMap.get(blog.author) + blog.likes)
+      : blogMap.set(blog.author, blog.likes);
+    return blogMap;
+  }, new Map());
+  return getMax(map, 'likes');
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
+  mostLikes,
 };
