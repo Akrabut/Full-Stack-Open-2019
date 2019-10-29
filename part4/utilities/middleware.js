@@ -1,10 +1,8 @@
-const bodyParserBase = require('body-parser');
-const morganBase = require('morgan');
+const bodyParser = require('body-parser').json();
+let morgan = require('morgan');
 
-const bodyParser = bodyParserBase.json();
-
-morganBase.token('body', (req) => JSON.stringify(req.body));
-const morgan = morganBase(':method :url :status :res[content-length] - :response-time ms :body');
+morgan.token('body', req => JSON.stringify(req.body));
+morgan = morgan(':method :url :status - :res[content-length] :response-time ms \n:body');
 
 // const requestLogger = (request, response, next) => {
 //   console.log('Method:', request.method);

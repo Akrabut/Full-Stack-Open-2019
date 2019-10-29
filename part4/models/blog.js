@@ -7,6 +7,7 @@ const blogSchema = mongoose.Schema({
   url: String,
   likes: Number,
 });
+
 blogSchema.plugin(uniqueValidator);
 
 blogSchema.set('toJSON', {
