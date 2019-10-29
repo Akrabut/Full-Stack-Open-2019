@@ -10,7 +10,7 @@ beforeEach(async () => {
   await Promise.all(blogs);
 });
 
-describe('get request without an id', async () => {
+describe('get request without an id', () => {
   test('all blogs are returned in a get request', async () => {
     const response = await api.get('/api/blogs');
     expect(response.body.length).toBe(testHelper.listWithBlogs.length);
@@ -27,6 +27,11 @@ describe('get request without an id', async () => {
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/);
+  });
+
+  test('blogs have id attribute rather than _id', async () => {
+    const blogs = (await api.get('/api/blogs')).body;
+    blogs.forEach(blog => expect(blog.id).toBeDefined());
   });
 });
 
