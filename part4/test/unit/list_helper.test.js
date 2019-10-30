@@ -25,6 +25,7 @@ describe('highest amount of likes', () => {
     expect(result).toEqual({
       title: 'Some weird title',
       author: 'Some weird guy',
+      url: 'https://www.heythatsanotherurl.net',
       likes: 39,
     });
   });
