@@ -32,7 +32,15 @@ const listWithBlogs = [
   }
 ];
 
+const blog = {
+  title: 'a test blog',
+  author: 'a tester',
+  url: 'www.qa.co.il',
+  likes: 512,
+};
+
 module.exports = {
   listWithOneBlog,
   listWithBlogs,
+  blog,
 };

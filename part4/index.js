@@ -6,6 +6,7 @@ mongoose.connect(config.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: 
   .then(() => console.log('Connected to MongoDB'))
   .catch(error => console.log(`${error} - connection failed`));
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 app.listen(config.PORT, () => {
   console.log(`Server running on port ${config.PORT}`);
