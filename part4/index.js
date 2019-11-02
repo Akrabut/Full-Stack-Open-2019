@@ -8,9 +8,11 @@ mongoose.connect(config.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: 
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
-app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(config.PORT, () => {
+    console.log(`Server running on port ${config.PORT}`);
+  });
+}
 
 // used in the integration tests
 module.exports = {

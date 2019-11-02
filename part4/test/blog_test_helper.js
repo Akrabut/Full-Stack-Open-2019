@@ -21,7 +21,7 @@ const listWithBlogs = [
   {
     title: 'Canonical string reduction',
     author: 'Edsger W. Dijkstra',
-    url: 'https://www.whatisthisurl.com',
+    url: 'https://www.whatisthisurllll.com',
     likes: 12,
   },
   {

@@ -1,0 +1,21 @@
+{
+  "lastRun": "1572651935104-add-blogs-to-users.js",
+  "migrations": [
+    {
+      "title": "1572647346229-add-user-to-blogs.js",
+      "timestamp": 1572648050300
+    },
+    {
+      "title": "1572648648569-try.js",
+      "timestamp": 1572648730074
+    },
+    {
+      "title": "1572648996282-try2.js",
+      "timestamp": 1572649013311
+    },
+    {
+      "title": "1572651935104-add-blogs-to-users.js",
+      "timestamp": 1572703843717
+    }
+  ]
+}

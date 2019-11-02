@@ -1,7 +1,7 @@
 const app = require('../../index');
 const api = require('supertest')(app.app);
 const Blog = require('../../models/blog');
-const testHelper = require('../test_helper');
+const testHelper = require('../blog_test_helper');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -9,6 +9,11 @@ beforeEach(async () => {
   const blogs = blogObjects.map(blog => blog.save());
   await Promise.all(blogs);
 });
+
+// afterAll(async () => {
+//   await app.mongoose.disconnect();
+//   app.server.close();
+// });
 
 async function initialDB() {
   return (await api.get('/api/blogs')).body;
@@ -120,7 +125,3 @@ describe('a put request with a given ID', () => {
     expect(secondDB).toContain(expectedLikes);
   });
 });
-
-// afterAll(() => {
-//   app.mongoose.connection.close();
-// });
