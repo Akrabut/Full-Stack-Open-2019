@@ -1,6 +1,7 @@
 const usersRouter = require('express').Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const errorHelper = require('../utilities/error_helper');
 
 usersRouter.get('/', async (req, res, next) => {
   try {
@@ -12,9 +13,7 @@ usersRouter.get('/', async (req, res, next) => {
 usersRouter.post('/', async (req, res, next) => {
   try {
     if (req.body.password.length < 6) {
-      const error = new Error('Password must be at least 5 character long');
-      error.name = 'ValidationError';
-      throw error;
+      throw errorHelper('ValidationError', 'Password must be at least 5 character long');
     }
     const passwordHash = await bcrypt.hash(req.body.password, 10);
     const user = new User({

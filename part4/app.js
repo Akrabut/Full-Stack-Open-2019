@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const loginRouter = require('./controllers/login');
 const blogsRouter = require('./controllers/blogs');
 const usersRouter = require('./controllers/users');
 const middleware = require('./utilities/middleware');
@@ -12,6 +13,7 @@ app.use(express.static('build'));
 
 app.use(middleware.morgan);
 
+app.use('/api/login', loginRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/blogs', blogsRouter);
 
