@@ -15,7 +15,7 @@ userSchema.set('toJSON', {
     user.id = user._id.toString();
     delete user.password;
     delete user._id;
-    delete user.__v;
+    delete user.__v; 
   },
 });
 

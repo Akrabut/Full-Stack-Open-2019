@@ -9,7 +9,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(config.PORT, () => {
+  app.listen(config.PORT, () => { 
     console.log(`Server running on port ${config.PORT}`);
   });
 }
