@@ -13,6 +13,8 @@ app.use(express.static('build'));
 
 app.use(middleware.morgan);
 
+app.use(middleware.tokenExtractor);
+
 app.use('/api/login', loginRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/blogs', blogsRouter);

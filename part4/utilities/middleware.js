@@ -4,6 +4,14 @@ let morgan = require('morgan');
 morgan.token('body', req => JSON.stringify(req.body));
 morgan = morgan(':method :url :status - :res[content-length] :response-time ms \n:body');
 
+const tokenExtractor = (req, res, next) => {
+  const auth = req.get('authorization');
+  if (auth && auth.toLowerCase().startsWith('bearer')) {
+    req.token = auth.substring(7);
+  }
+  next();
+};
+
 // const requestLogger = (request, response, next) => {
 //   console.log('Method:', request.method);
 //   console.log('Path:  ', request.path);
@@ -32,6 +40,7 @@ const errorHandler = (error, request, response, next) => {
 module.exports = {
   bodyParser,
   morgan,
+  tokenExtractor,
   // requestLogger,
   unknownEndpoint,
   errorHandler,
