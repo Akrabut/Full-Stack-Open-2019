@@ -8,7 +8,7 @@ const middleware = require('./utilities/middleware');
 const app = express();
 
 app.use(cors());
-app.use(middleware.bodyParser);
+app.use(express.json());
 app.use(express.static('build'));
 
 app.use(middleware.morgan);

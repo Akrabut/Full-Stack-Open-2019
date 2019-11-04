@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser').json();
 let morgan = require('morgan');
 
 morgan.token('body', req => JSON.stringify(req.body));
@@ -38,7 +37,6 @@ const errorHandler = (error, request, response, next) => {
 };
 
 module.exports = {
-  bodyParser,
   morgan,
   tokenExtractor,
   // requestLogger,
