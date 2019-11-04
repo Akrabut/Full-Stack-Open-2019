@@ -1,0 +1,22 @@
+import React, { useState, useEffect } from 'react'
+import blogService from '../services/blogs'
+import Blog from './Blog'
+
+const Blogs = props => {
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    blogService.getAll().then(res => setBlogs(res))  
+  }, [])
+
+  return (
+    <div id="blogs">
+      <h2>Blogs</h2>
+      <ol id="blog-list">
+        {blogs.map(blog => <Blog key={blog.id} blog={blog}></Blog>)}
+      </ol>
+    </div>
+  )
+}
+
+export default Blogs
