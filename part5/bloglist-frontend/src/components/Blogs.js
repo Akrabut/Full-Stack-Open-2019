@@ -4,9 +4,12 @@ import Blog from './Blog'
 
 const Blogs = props => {
   const [blogs, setBlogs] = useState([])
+  const [token, setToken] = useState('')
 
   useEffect(() => {
+    setToken(`bearer ${props.token}`)
     blogService.getAll().then(res => setBlogs(res))  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

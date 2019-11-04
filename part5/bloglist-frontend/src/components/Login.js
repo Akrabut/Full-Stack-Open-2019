@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import loginService from '../services/login'
 
 const Login = props => {
@@ -6,12 +6,29 @@ const Login = props => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  useEffect(() => {
+    const storedUser = JSON.parse(window.localStorage.getItem('loggedBlogAppUser'))
+    if (!storedUser) return
+    setUser(storedUser)
+    props.setToken(storedUser.token)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function handleLogout(event) {
+    event.preventDefault()
+    props.setToken('')
+    window.localStorage.removeItem('loggedBlogAppUser')
+    setUser(null)
+  }
+
   async function handleLogin(event) {
     event.preventDefault()
     console.log(username, password);
     try {
-      setUser((await loginService.login({ username, password })).data)
-      props.setLogged(!props.logged)
+      const user = (await loginService.login({ username, password })).data
+      setUser(user)
+      props.setToken(user.token)
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
     } catch(error) { console.log(error); }
     setUsername('')
     setPassword('')
@@ -28,7 +45,7 @@ const Login = props => {
         </div>
         <div id="password-input">
           {`password `}
-          <input type="text" value={password} name="Password"
+          <input type="password" value={password} name="Password"
           onChange={event => setPassword(event.target.value)}></input>
         </div>
         <button type="submit">Log in</button>
@@ -37,10 +54,10 @@ const Login = props => {
   }
 
   function loggedIn() {
-    console.log(user);
     return (
       <div>
         {user.name} logged in
+        <button type="submit" onClick={handleLogout}>log out</button>
       </div>
     )
   }

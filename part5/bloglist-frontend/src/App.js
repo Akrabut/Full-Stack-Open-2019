@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Blogs from './components/Blogs'
 import Login from './components/Login';
 
 function App() {
-  const [logged, setLogged] = useState(false)
+  const [token, setToken] = useState('')
 
   function displayBlogs() {
-    return (logged ? <Blogs></Blogs> : '')
+    return (token ? <Blogs token={token}></Blogs> : '')
   }
 
   return (
     <div className="App">
-      <Login logged={logged} setLogged={setLogged}></Login>
+      <Login setToken={setToken}></Login>
       {displayBlogs()}
     </div>
   );
