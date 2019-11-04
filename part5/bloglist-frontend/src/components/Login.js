@@ -10,7 +10,7 @@ const Login = props => {
     const storedUser = JSON.parse(window.localStorage.getItem('loggedBlogAppUser'))
     if (!storedUser) return
     setUser(storedUser)
-    props.setToken(storedUser.token)
+    props.setToken(`bearer ${storedUser.token}`)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -29,9 +29,9 @@ const Login = props => {
       setUser(user)
       props.setToken(user.token)
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      setUsername('')
+      setPassword('')
     } catch(error) { console.log(error); }
-    setUsername('')
-    setPassword('')
   }
 
   function loggedOut() {
@@ -56,14 +56,16 @@ const Login = props => {
   function loggedIn() {
     return (
       <div>
-        {user.name} logged in
+        {`${user.name} logged in `}
         <button type="submit" onClick={handleLogout}>log out</button>
       </div>
     )
   }
 
   return (
-    user ? loggedIn() : loggedOut()
+    <div id="login-form">
+      {user ? loggedIn() : loggedOut()}
+    </div>
   )
 
 }

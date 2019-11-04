@@ -1,8 +1,12 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/blogs'
 
-const getAll = async () => {
+const readAll = async () => {
   return (await axios.get(baseUrl)).data
 }
 
-export default { getAll }
+const create = async (blog, token) => {
+  return axios.post(baseUrl, blog, { headers: { Authorization: token }})
+}
+
+export default { readAll, create }
