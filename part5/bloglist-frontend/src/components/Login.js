@@ -21,6 +21,11 @@ const Login = props => {
     setUser(null)
   }
 
+  function setBlogProperties(status, message) {
+    props.setactionStatus(status)
+    props.setactionMessage(message)
+  }
+
   async function handleLogin(event) {
     event.preventDefault()
     console.log(username, password);
@@ -31,7 +36,10 @@ const Login = props => {
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       setUsername('')
       setPassword('')
-    } catch(error) { console.log(error); }
+      setBlogProperties('', '')
+    } catch(error) {
+      setBlogProperties('error', error.response.data.error)
+    }
   }
 
   function loggedOut() {

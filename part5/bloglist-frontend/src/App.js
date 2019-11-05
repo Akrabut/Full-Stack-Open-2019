@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import Blogs from './components/Blogs'
 import Login from './components/Login';
 import CreateBlog from './components/CreateBlog'
+import Notification from './components/Notification'
 
 function App() {
   const [token, setToken] = useState('')
-  const [blogAdded, setBlogAdded] = useState(false)
+  const [actionStatus, setactionStatus] = useState('')
+  const [actionMessage, setactionMessage] = useState('')
 
-  function changeblogAdded() {
-    setBlogAdded(!blogAdded)
+  function displayNotification() {
+    if (!actionStatus) return
+    setTimeout(() => {
+      setactionStatus('')
+      setactionMessage('')
+    }, 7500)
+    return <Notification type={actionStatus} message={actionMessage}></Notification>
   }
 
   function displayBlogs() {
@@ -16,12 +23,13 @@ function App() {
   }
 
   function newBlogForm() {
-    return (token ? <CreateBlog token={token} changeblogAdded={changeblogAdded}></CreateBlog> : '')
+    return (token ? <CreateBlog token={token} setactionStatus={setactionStatus} setactionMessage={setactionMessage}></CreateBlog> : '')
   }
-  console.log(blogAdded);
+
   return (
     <div className="App">
-      <Login setToken={setToken}></Login>
+      {displayNotification()}
+      <Login setToken={setToken} setactionStatus={setactionStatus} setactionMessage={setactionMessage}></Login>
       {displayBlogs()}
       {newBlogForm()}
     </div>

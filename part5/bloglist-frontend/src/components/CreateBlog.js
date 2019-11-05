@@ -6,16 +6,23 @@ const CreateBlog = props => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+  function setBlogProperties(status, message) {
+    props.setactionStatus(status)
+    props.setactionMessage(message)
+  }
+
   async function handleCreate(event) {
     event.preventDefault()
     try {
       const blog = { title, author, url }
       await blogService.create(blog, props.token)
-      props.changeblogAdded()
+      setBlogProperties('success', `${blog.title} by ${blog.author} added`)
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch(error) { console.log(error) }
+    } catch(error) {
+      setBlogProperties('error', error.response.data.error)
+    }
     
   }
 
