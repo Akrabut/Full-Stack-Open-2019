@@ -48,12 +48,12 @@ const Login = props => {
         <h2>Login to app</h2>
         <div id="username-input">
           {`username `}
-          <input type="text" value={username} name="Username"
+          <input type="text" value={username} required name="Username"
             onChange={event => setUsername(event.target.value)}></input>
         </div>
         <div id="password-input">
           {`password `}
-          <input type="password" value={password} name="Password"
+          <input type="password" value={password} required name="Password"
           onChange={event => setPassword(event.target.value)}></input>
         </div>
         <button type="submit">Log in</button>
