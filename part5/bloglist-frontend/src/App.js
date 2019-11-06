@@ -23,9 +23,9 @@ function App() {
 
   return (
     <div className="App">
-      {displayNotification()}
       <Login setToken={setToken} setactionStatus={setactionStatus} setactionMessage={setactionMessage}/>
       {displayBlogs()}
+      {displayNotification()}
     </div>
   );
 }
