@@ -9,4 +9,12 @@ const create = async (blog, token) => {
   return axios.post(baseUrl, blog, { headers: { Authorization: token }})
 }
 
-export default { readAll, create }
+const update = async blog => {
+  try {
+    blog.likes += 1
+    return axios.patch(`${baseUrl}/${blog.id}`, blog)
+  } catch(error) { console.log(error); }
+
+}
+
+export default { readAll, create, update }

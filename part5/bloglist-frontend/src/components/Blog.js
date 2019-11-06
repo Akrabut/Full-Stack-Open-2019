@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Likes, blogService } from './Likes'
 
 const Blog = ({ blog }) => {
   const [visibility, setVisibility] = useState(false)
@@ -14,7 +15,7 @@ const Blog = ({ blog }) => {
 
   function hideDetails() {
     return (
-      <article id="blog-without-details">
+      <article id="blog-without-details" onClick={() => setVisibility(!visibility)}>
         {blog.title}
       </article>
     )
@@ -23,18 +24,21 @@ const Blog = ({ blog }) => {
   function displayDetails() {
     return (
       <article id="blog-with-details">
-        {blog.title} - by {blog.author}
-        <br></br>
-        {blog.url}
+        <div id="clickable-content" onClick={() => setVisibility(!visibility)}>
+          {blog.title} - by {blog.author}
+          <br></br>
+          {blog.url}
+        </div>
+        <Likes blog={blog}/>
       </article>
     )
   }
 
   return (
-    <div id="blog" onClick = {() => setVisibility(!visibility)} style={style}>
+    <div id="blog"  style={style}>
       {visibility ? displayDetails() : hideDetails()}
     </div>
   )
 }
 
-export default Blog
+export { Blog, blogService }

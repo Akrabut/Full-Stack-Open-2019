@@ -7,11 +7,14 @@ const errorHelper = require('../utilities/error_helper');
 blogsRouter.get('/', async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate('user', { name: 1, username: 1 });
-    console.log(blogs);
     response.json(blogs.map(blog => blog.toJSON()));
-  } catch(error) {
-    next(error);
-  }
+  } catch(error) { next(error); }
+});
+
+blogsRouter.get('/:id', async (req, res, next) => {
+  try {
+    res.json((await Blog.findById(req.params.id)).toJSON());
+  } catch(error) { next(error); }
 });
 
 function decodeToken(req) {
@@ -32,9 +35,7 @@ blogsRouter.post('/', async (request, response, next) => {
     user.blogs.push(blog._id);
     await user.save();
     response.status(201).json(savedBlog.toJSON());
-  } catch(error) {
-    next(error);
-  }
+  } catch(error) { next(error); }
 });
 
 blogsRouter.delete('/:id', async (req, res, next) => {
@@ -48,13 +49,15 @@ blogsRouter.delete('/:id', async (req, res, next) => {
   } catch(error) { next(error); }
 });
 
-blogsRouter.put('/:id', async (req, res, next) => {
+blogsRouter.patch('/:id', async (req, res, next) => {
   try {
-    const result = await Blog.findByIdAndUpdate(req.params.id, req.body);
+    const result = await Blog.findByIdAndUpdate(req.params.id, { likes: req.body.likes });
     result
       ? res.status(202).send('Updated successfully')
       : res.status(404).send('No such ID');
   } catch(error) { next(error); }
 });
+
+// no put yet
 
 module.exports = blogsRouter;
