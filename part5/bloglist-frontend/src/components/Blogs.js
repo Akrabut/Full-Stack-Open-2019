@@ -16,15 +16,14 @@ const Blogs = props => {
   }
 
   return (
-    <div id="blogs">
-      {console.log(blogs)}
+    <main id="blogs">
       <h2>Blogs</h2>
       <ol id="blog-list">
-        {blogs.map(blog => <Blog key={blog.id} blog={blog}></Blog>)}
+        {blogs.map(blog => <li key={blog.id}><Blog blog={blog}/></li>)}
       </ol>
       <CreateBlog token={props.token} setactionStatus={props.setactionStatus} setactionMessage={props.setactionMessage}
           addBlog={addBlog}/>
-    </div>
+    </main>
   )
 }
 
