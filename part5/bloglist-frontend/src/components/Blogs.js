@@ -7,7 +7,7 @@ const Blogs = props => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    blogService.readAll().then(res => setBlogs(res)) 
+    blogService.readAll().then(res => setBlogs(res.sort((blog1, blog2) => blog2.likes - blog1.likes))) 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
