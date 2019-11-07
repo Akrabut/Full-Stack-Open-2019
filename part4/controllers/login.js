@@ -24,7 +24,7 @@ loginRouter.post('/', async (req, res, next) => {
     if (!(await checkPassword(req.body.password, user))) {
       throw errorHelper('AuthenticationError', 'Invalid username or password');
     }
-    res.status(200).send({ token: tokenizeUser(user), username: user.username, name: user.name });
+    res.status(200).send({ token: tokenizeUser(user), username: user.username, name: user.name, id: user._id });
   } catch(error) { next(error); }
 });
 

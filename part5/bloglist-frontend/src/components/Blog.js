@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Likes, blogService } from './Likes'
 
-const Blog = ({ blog, handleDelete }) => {
+const Blog = ({ blog, handleDelete, loggedUserId }) => {
   const [visibility, setVisibility] = useState(false)
 
   const style = {
@@ -21,6 +21,13 @@ const Blog = ({ blog, handleDelete }) => {
     )
   }
 
+  function displayDeleteButton() {
+    if (JSON.stringify(blog.user.id) !== window.localStorage.getItem('loggedBlogAppUserId')) return
+    return (
+      <button onClick={() => handleDelete(blog)} style={{ background: 'lightBlue' }}>delete</button>
+    )
+  }
+
   function displayDetails() {
     return (
       <article id="blog-with-details">
@@ -32,7 +39,7 @@ const Blog = ({ blog, handleDelete }) => {
           Uploaded by {blog.user.name}
         </div>
         <Likes blog={blog}/>
-        <button onClick={() => handleDelete(blog)} style={{background: 'lightBlue'}}>delete</button>
+        {displayDeleteButton()}
       </article>
     )
   }

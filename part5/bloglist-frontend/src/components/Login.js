@@ -6,11 +6,15 @@ const Login = props => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  function setLoggedUser(userParam) {
+    setUser(userParam)
+    props.setToken(`bearer ${userParam.token}`)
+  }
+
   useEffect(() => {
     const storedUser = JSON.parse(window.localStorage.getItem('loggedBlogAppUser'))
     if (!storedUser) return
-    setUser(storedUser)
-    props.setToken(`bearer ${storedUser.token}`)
+    setLoggedUser(storedUser)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -18,6 +22,7 @@ const Login = props => {
     event.preventDefault()
     props.setToken('')
     window.localStorage.removeItem('loggedBlogAppUser')
+    window.localStorage.removeItem('loggedBlogAppUserId')
     setUser(null)
   }
 
@@ -25,11 +30,11 @@ const Login = props => {
     event.preventDefault()
     console.log(username, password);
     try {
-      const user = (await loginService.login({ username, password })).data
-      setUser(user)
+      const loggedUser = (await loginService.login({ username, password })).data
+      setLoggedUser(loggedUser)
       props.setErrorProperties('', '')
-      props.setToken(user.token)
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(loggedUser))
+      window.localStorage.setItem('loggedBlogAppUserId', JSON.stringify(loggedUser.id))
       setUsername('')
       setPassword('')
     } catch(error) {
