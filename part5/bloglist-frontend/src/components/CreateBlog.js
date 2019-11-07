@@ -7,28 +7,23 @@ const CreateBlog = props => {
   const [url, setUrl] = useState('')
   const [visibility, setVisibility] = useState(false)
 
-  function setBlogProperties(status, message) {
-    props.setactionStatus(status)
-    props.setactionMessage(message)
-  }
-
   async function handleCreate(event) {
     event.preventDefault()
     try {
       const blog = (await blogService.create({ title, author, url }, props.token)).data
-      setBlogProperties('success', `${blog.title} by ${blog.author} added`)
+      props.setErrorProperties('success', `${blog.title} by ${blog.author} added`)
       props.addBlog(blog)
       setTitle('')
       setAuthor('')
       setUrl('')
     } catch(error) {
-      setBlogProperties('error', error.response.data.error)
+      props.setErrorProperties('error', error.response.data.error)
     }
   }
 
   function handleCancel() {
     setVisibility(!visibility)
-    setBlogProperties('', '')
+    props.setErrorProperties('', '')
   }
 
   function displayForm() {

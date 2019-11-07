@@ -21,28 +21,24 @@ const Login = props => {
     setUser(null)
   }
 
-  function setBlogProperties(status, message) {
-    props.setactionStatus(status)
-    props.setactionMessage(message)
-  }
-
   async function handleLogin(event) {
     event.preventDefault()
     console.log(username, password);
     try {
       const user = (await loginService.login({ username, password })).data
       setUser(user)
+      props.setErrorProperties('', '')
       props.setToken(user.token)
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       setUsername('')
       setPassword('')
-      setBlogProperties('', '')
     } catch(error) {
-      setBlogProperties('error', error.response.data.error)
+      props.setErrorProperties('error', error.response.data.error)
     }
   }
 
   function loggedOut() {
+    props.setErrorProperties('', '')
     return (
       <form id="login-form" onSubmit={handleLogin}>
         <h2>Login to app</h2>

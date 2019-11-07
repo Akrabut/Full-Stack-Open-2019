@@ -5,8 +5,10 @@ const Likes = props => {
   const [likes, setLikes] = useState(props.blog.likes)
 
   async function handleLike() {
-    await blogService.update(props.blog)
-    setLikes(likes + 1)
+    try {
+      await blogService.update(props.blog)
+      setLikes(likes + 1)
+    } catch(error) { console.log(error) }
   }
 
   return (
@@ -15,7 +17,6 @@ const Likes = props => {
       <button onClick={handleLike}>like</button>
     </div>
   )
-
 }
 
 export { Likes, blogService }

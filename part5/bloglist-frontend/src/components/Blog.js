@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Likes, blogService } from './Likes'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleDelete }) => {
   const [visibility, setVisibility] = useState(false)
 
   const style = {
@@ -28,8 +28,11 @@ const Blog = ({ blog }) => {
           {blog.title} - by {blog.author}
           <br></br>
           {blog.url}
+          <br></br>
+          Uploaded by {blog.user.name}
         </div>
         <Likes blog={blog}/>
+        <button onClick={() => handleDelete(blog)} style={{background: 'lightBlue'}}>delete</button>
       </article>
     )
   }

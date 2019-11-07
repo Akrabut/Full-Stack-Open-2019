@@ -8,6 +8,11 @@ function App() {
   const [actionStatus, setactionStatus] = useState('')
   const [actionMessage, setactionMessage] = useState('')
 
+  function setErrorProperties(status, message) {
+    setactionStatus(status)
+    setactionMessage(message)
+  }
+
   function displayNotification() {
     if (!actionStatus) return
     setTimeout(() => {
@@ -18,12 +23,12 @@ function App() {
   }
 
   function displayBlogs() {
-    return (token ? <Blogs token={token} setactionStatus={setactionStatus} setactionMessage={setactionMessage}/> : '')
+    return (token ? <Blogs token={token} setErrorProperties={setErrorProperties}/> : '')
   }
 
   return (
     <div className="App">
-      <Login setToken={setToken} setactionStatus={setactionStatus} setactionMessage={setactionMessage}/>
+      <Login setToken={setToken} setErrorProperties={setErrorProperties}/>
       {displayBlogs()}
       {displayNotification()}
     </div>
