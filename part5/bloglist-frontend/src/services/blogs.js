@@ -11,7 +11,6 @@ const create = async (blog, token) => {
 
 const update = async blog => {
   try {
-    blog.likes += 1
     return axios.patch(`${baseUrl}/${blog.id}`, blog)
   } catch(error) { console.log(error); }
 }

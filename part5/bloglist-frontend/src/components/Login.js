@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import loginService from '../services/login'
+import propTypes from 'prop-types'
 
 const Login = props => {
   const [user, setUser] = useState(null)
@@ -76,7 +77,11 @@ const Login = props => {
       {user ? loggedIn() : loggedOut()}
     </div>
   )
+}
 
+Login.propTypes = {
+  setToken: propTypes.func.isRequired,
+  setErrorProperties: propTypes.func.isRequired,
 }
 
 export default Login

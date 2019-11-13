@@ -22,7 +22,7 @@ const CreateBlog = props => {
   }
 
   function handleCancel() {
-    setVisibility(!visibility)
+    setVisibility(false)
     props.setErrorProperties('', '')
   }
 
@@ -45,7 +45,7 @@ const CreateBlog = props => {
   function hideForm() {
     return (
       <div id="hidden-form">
-        <button onClick={() => setVisibility(!visibility)}>add blog</button>
+        <button onClick={() => setVisibility(true)}>add blog</button>
       </div>
     )
   }

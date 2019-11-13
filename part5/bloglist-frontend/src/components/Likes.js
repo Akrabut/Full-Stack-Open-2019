@@ -6,6 +6,7 @@ const Likes = props => {
 
   async function handleLike() {
     try {
+      props.blog.likes += 1
       await blogService.update(props.blog)
       setLikes(likes + 1)
     } catch(error) { console.log(error) }

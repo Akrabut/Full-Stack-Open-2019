@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Likes, blogService } from './Likes'
 
-const Blog = ({ blog, handleDelete, loggedUserId }) => {
+const Blog = ({ blog, handleDelete }) => {
   const [visibility, setVisibility] = useState(false)
 
   const style = {
@@ -15,7 +15,7 @@ const Blog = ({ blog, handleDelete, loggedUserId }) => {
 
   function hideDetails() {
     return (
-      <article id="blog-without-details" onClick={() => setVisibility(!visibility)}>
+      <article id="blog-without-details" onClick={() => setVisibility(true)}>
         {blog.title}
       </article>
     )
@@ -31,7 +31,7 @@ const Blog = ({ blog, handleDelete, loggedUserId }) => {
   function displayDetails() {
     return (
       <article id="blog-with-details">
-        <div id="clickable-content" onClick={() => setVisibility(!visibility)}>
+        <div id="clickable-content" onClick={() => setVisibility(false)}>
           {blog.title} - by {blog.author}
           <br></br>
           {blog.url}
