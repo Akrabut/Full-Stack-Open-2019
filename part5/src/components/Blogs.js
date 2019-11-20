@@ -32,7 +32,7 @@ const Blogs = props => {
     <main id="blogs">
       <h2>Blogs</h2>
       <ol id="blog-list">
-        {blogs.map(blog => <li key={blog.id}><Blog blog={blog} loggedUserId={props.loggedUserId} handleDelete={handleDelete}/></li>)}
+        {blogs.map(blog => <li key={blog.id}><Blog blog={blog} handleDelete={handleDelete}/></li>)}
       </ol>
       <CreateBlog token={props.token} setErrorProperties={props.setErrorProperties} addBlog={addBlog}/>
     </main>

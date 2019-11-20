@@ -45,7 +45,7 @@ const Blog = ({ blog, handleDelete }) => {
   }
 
   return (
-    <div id="blog"  style={style}>
+    <div id="blog" style={style}>
       {visibility ? displayDetails() : hideDetails()}
     </div>
   )
