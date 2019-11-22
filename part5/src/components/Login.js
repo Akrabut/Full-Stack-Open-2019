@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import loginService from '../services/login'
 import propTypes from 'prop-types'
+import { useField } from '../hooks/index'
 
 const Login = props => {
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('')
+  const password = useField('')
 
   function setLoggedUser(userParam) {
     setUser(userParam)
@@ -21,6 +22,7 @@ const Login = props => {
 
   async function handleLogout(event) {
     event.preventDefault()
+    props.setErrorProperties('', '')
     props.setToken('')
     window.localStorage.removeItem('loggedBlogAppUser')
     window.localStorage.removeItem('loggedBlogAppUserId')
@@ -29,34 +31,32 @@ const Login = props => {
 
   async function handleLogin(event) {
     event.preventDefault()
-    console.log(username, password);
     try {
-      const loggedUser = (await loginService.login({ username, password })).data
+      const loggedUser = (await loginService.login({ username: username.value, password: password.value })).data
       setLoggedUser(loggedUser)
       props.setErrorProperties('', '')
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(loggedUser))
       window.localStorage.setItem('loggedBlogAppUserId', JSON.stringify(loggedUser.id))
-      setUsername('')
-      setPassword('')
+      username.reInit('')
+      password.reInit('')
     } catch(error) {
       props.setErrorProperties('error', error.response.data.error)
     }
   }
 
   function loggedOut() {
-    props.setErrorProperties('', '')
     return (
       <form id="login-form" onSubmit={handleLogin}>
         <h2>Login to app</h2>
         <div id="username-input">
           {`username `}
-          <input type="text" value={username} required name="Username"
-            onChange={event => setUsername(event.target.value)}></input>
+          <input type="text" value={username.value} required name="Username"
+            onChange={event => username.onChange(event)}></input>
         </div>
         <div id="password-input">
           {`password `}
-          <input type="password" value={password} required name="Password"
-          onChange={event => setPassword(event.target.value)}></input>
+          <input type="password" value={password.value} required name="Password"
+          onChange={event => password.onChange(event)}></input>
         </div>
         <button type="submit">Log in</button>
       </form>

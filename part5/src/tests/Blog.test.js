@@ -1,7 +1,6 @@
 import testHelper from '../helpers/test_helper.js'
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { getByTestId, getByText } from '@testing-library/dom'
 import { Blog } from '../components/Blog'
 
 describe('Blog component', () => {
@@ -46,6 +45,5 @@ describe('Blog component', () => {
     fireEvent.click(button)
     expect(component.container).not.toHaveTextContent(blog.url)
   })
-
 })
 

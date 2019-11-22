@@ -16,9 +16,9 @@ function App() {
   function displayNotification() {
     if (!actionStatus) return
     setTimeout(() => {
-      setactionStatus('')
-      setactionMessage('')
+      setErrorProperties('', '')
     }, 7500)
+    if (actionStatus && !actionMessage) setactionMessage('An unknown error occured') 
     return <Notification type={actionStatus} message={actionMessage}/>
   }
 
