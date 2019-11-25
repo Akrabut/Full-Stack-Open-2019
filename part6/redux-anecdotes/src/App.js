@@ -1,5 +1,6 @@
 import React from 'react';
 import Anecdotes from './components/Anecdotes'
+import CreateAnecdote from './components/CreateAnecdote'
 
 const App = (props) => {
   const anecdotes = props.store.getState()
@@ -11,11 +12,7 @@ const App = (props) => {
   return (
     <div>
       <Anecdotes dispatch={props.store.dispatch} anecdotes={anecdotes} vote={vote}/>
-      <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
-      </form>
+      <CreateAnecdote dispatch={props.store.dispatch}/>
     </div>
   )
 }
