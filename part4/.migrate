@@ -1,0 +1,41 @@
+{
+  "lastRun": "1572736565845-fix-passwords.js",
+  "migrations": [
+    {
+      "title": "1572647346229-add-user-to-blogs.js",
+      "timestamp": 1572648050300
+    },
+    {
+      "title": "1572648648569-try.js",
+      "timestamp": 1572648730074
+    },
+    {
+      "title": "1572648996282-try2.js",
+      "timestamp": 1572649013311
+    },
+    {
+      "title": "1572651935104-add-blogs-to-users.js",
+      "timestamp": 1572703843717
+    },
+    {
+      "title": "1572735099276-passwords-to-hash.js",
+      "timestamp": 1572735636838
+    },
+    {
+      "title": "1572735712605-password-to-hash2.js",
+      "timestamp": 1572735810050
+    },
+    {
+      "title": "1572735837673-password-to-hash3.js",
+      "timestamp": 1572735857585
+    },
+    {
+      "title": "1572736316132-password-to-hash4.js",
+      "timestamp": 1572736329059
+    },
+    {
+      "title": "1572736565845-fix-passwords.js",
+      "timestamp": 1572736654225
+    }
+  ]
+}
