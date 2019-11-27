@@ -9,6 +9,10 @@ const Anecdote = props => {
         votes: props.anecdote.votes + 1,
       }
     })
+    props.dispatch({
+      type: 'SET',
+      data: props.anecdote.content
+    })
   }
 
   return (

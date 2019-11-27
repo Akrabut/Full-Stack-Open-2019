@@ -7,7 +7,7 @@ const Anecdotes = props => {
       <h2 id="anecdote-header">Anecdotes</h2>
       <ul id="anecdote-list">
         {props.anecdotes.map(anecdote => (
-          <Anecdote key={anecdote.id} dispatch={props.dispatch} anecdote={anecdote} vote={props.vote}/>
+          <Anecdote key={anecdote.id} dispatch={props.dispatch} anecdote={anecdote}/>
         ))}
       </ul>
     </div>

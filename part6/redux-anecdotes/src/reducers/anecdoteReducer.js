@@ -23,7 +23,7 @@ const orderAnecdotes = anecdotes => {
 
 const initialState = orderAnecdotes(anecdotesAtStart.map(asObject))
 
-export const reducer = (state = initialState, action) => {
+export const anecdoteReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'VOTE':
       return orderAnecdotes(state.map(anecdote =>
