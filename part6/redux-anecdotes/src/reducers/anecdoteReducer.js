@@ -1,35 +1,21 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+import { anecdotesAtStart, sortAnecdotes, asObject, filterAnecdotes } from '../helpers/anecdoteHelper'
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
-const orderAnecdotes = anecdotes => {
-  return anecdotes.sort((a, b) => b.votes - a.votes)
-}
-
-const initialState = orderAnecdotes(anecdotesAtStart.map(asObject))
+const initialState = sortAnecdotes(anecdotesAtStart.map(asObject))
 
 export const anecdoteReducer = (state = initialState, action) => {
+  state['filtered'] = state['filtered'] || []
   switch (action.type) {
     case 'VOTE':
-      return orderAnecdotes(state.map(anecdote =>
+      state = sortAnecdotes(state.map(anecdote =>
         anecdote.id === action.data.id ? action.data : anecdote))
+      state['filtered'] = filterAnecdotes(state, state['filterBy'])
+      return state
     case 'CREATE-ANECDOTE':
       return state.concat(asObject(action.data))
+    case 'FILTER':
+      state['filterBy'] = action.data
+      state['filtered'] = filterAnecdotes(state, state['filterBy'])
+      return state
     default:
       return state
   }

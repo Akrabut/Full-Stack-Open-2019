@@ -4,12 +4,12 @@ import CreateAnecdote from './components/CreateAnecdote'
 import Notification from './components/Notification'
 
 const App = (props) => {
-  const anecdotes = props.store.getState().anecdote
 
   return (
     <div>
-      <Notification dispatch={props.store.dispatch} notification={props.store.getState().notification} />
-      <Anecdotes dispatch={props.store.dispatch} anecdotes={anecdotes}/>
+      <h2 id="anecdote-header">Anecdotes</h2>
+      <Notification dispatch={props.store.dispatch} notification={props.store.getState().notification}/>
+      <Anecdotes store={props.store}/>
       <CreateAnecdote dispatch={props.store.dispatch}/>
     </div>
   )
