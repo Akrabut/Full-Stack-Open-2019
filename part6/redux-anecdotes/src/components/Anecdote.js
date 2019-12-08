@@ -1,22 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-
-function vote(anecdote) {
-  return {
-    type: 'VOTE',
-    data: {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    }
-  }
-}
-
-function set(content) {
-  return {
-    type: 'SET',
-    data: content
-  }
-}
+import { anecdoteHelper } from '../helpers/anecdoteHelper'
 
 function handleVote(anecdote, vote, stateAlert, set) {
   vote(anecdote)
@@ -36,7 +20,8 @@ const Anecdote = props => {
 }
 
 const mapDispatchToProps = {
-  vote, set
+  vote: anecdoteHelper.vote,
+  set: anecdoteHelper.set,
 }
 
 const connectedAnecdote = connect(null, mapDispatchToProps)(Anecdote)

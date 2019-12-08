@@ -6,4 +6,14 @@ function sortAnecdotes(anecdotes) {
   return anecdotes.sort((a, b) => b.votes - a.votes)
 }
 
-export { filterAnecdotes, sortAnecdotes }
+function handleFilter(anecdotes, filterBy = '') {
+  return {
+    type: 'FILTER',
+    data: {
+      filterBy,
+      anecdotes,
+    }
+  }
+}
+
+export { filterAnecdotes, sortAnecdotes, handleFilter }

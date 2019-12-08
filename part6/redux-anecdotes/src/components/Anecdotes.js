@@ -4,23 +4,8 @@ import Filter from './Filter'
 import CreateAnecdote from './CreateAnecdote'
 import { connect } from 'react-redux'
 import { getAll } from '../services/anecdotes'
-
-function handleFilter(anecdotes, filterBy = '') {
-  return {
-    type: 'FILTER',
-    data: {
-      filterBy,
-      anecdotes,
-    }
-  }
-}
-
-function setAll(anecdotes) {
-  return {
-    type: 'SET-ALL',
-    data: anecdotes,
-  }
-}
+import { anecdotesHelper } from '../helpers/anecdoteHelper'
+import { handleFilter } from '../helpers/filterHelper'
 
 const Anecdotes = props => {
   useEffect(() => {
@@ -50,7 +35,8 @@ const Anecdotes = props => {
 }
 
 const mapDispatchToProps = {
-  handleFilter, setAll
+  handleFilter, 
+  setAll: anecdotesHelper.setAll
 }
 
 function mapStateToProps(state) {
