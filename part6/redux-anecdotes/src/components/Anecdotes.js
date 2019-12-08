@@ -3,7 +3,7 @@ import Anecdote from './Anecdote'
 import Filter from './Filter'
 import CreateAnecdote from './CreateAnecdote'
 import { connect } from 'react-redux'
-import getAll from '../services/anecdotes'
+import { getAll } from '../services/anecdotes'
 
 function handleFilter(anecdotes, filterBy = '') {
   return {
@@ -24,11 +24,10 @@ function setAll(anecdotes) {
 
 const Anecdotes = props => {
   useEffect(() => {
-    async function setAnecdotes() {
-      props.setAll(await getAll())
-      props.handleFilter(props.anecdotes)
-    }
-    setAnecdotes()
+    getAll().then(anecdotes => {
+      props.setAll(anecdotes)
+      props.handleFilter(anecdotes)
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

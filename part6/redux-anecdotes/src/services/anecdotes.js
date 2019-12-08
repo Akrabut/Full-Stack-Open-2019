@@ -6,4 +6,8 @@ async function getAll() {
   return (await axios.get(url)).data;
 }
 
-export default getAll
+async function create(anecdote) {
+
+}
+
+export { getAll, create }

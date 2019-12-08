@@ -1,8 +1,6 @@
-import { anecdotesAtStart, asObject } from '../helpers/anecdoteHelper'
+import { asObject } from '../helpers/anecdoteHelper'
 
-const initialState = anecdotesAtStart.map(asObject)
-
-export const anecdoteReducer = (state = initialState, action) => {
+export const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE':
       state = state.map(anecdote =>
@@ -11,7 +9,6 @@ export const anecdoteReducer = (state = initialState, action) => {
     case 'CREATE':
       return state.concat(asObject(action.data))
     case 'SET-ALL':
-      console.log(action.data);
       return action.data
     default:
       return state
