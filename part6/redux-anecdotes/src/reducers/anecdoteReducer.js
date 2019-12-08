@@ -3,7 +3,6 @@ import { anecdotesAtStart, asObject } from '../helpers/anecdoteHelper'
 const initialState = anecdotesAtStart.map(asObject)
 
 export const anecdoteReducer = (state = initialState, action) => {
-  console.log(action.data);
   switch (action.type) {
     case 'VOTE':
       state = state.map(anecdote =>
