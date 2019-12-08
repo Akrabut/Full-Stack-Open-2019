@@ -1,5 +1,3 @@
-import { asObject } from '../helpers/anecdoteHelper'
-
 export const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE':
@@ -7,7 +5,7 @@ export const anecdoteReducer = (state = [], action) => {
         anecdote.id === action.data.id ? action.data : anecdote)
       return state
     case 'CREATE':
-      return state.concat(asObject(action.data))
+      return state.concat(action.data)
     case 'SET-ALL':
       return action.data
     default:

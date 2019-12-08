@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { asObject } from '../helpers/anecdoteHelper'
+import { create } from '../services/anecdotes'
 
-function createAnecdote(event) {
+async function createAnecdote(event) {
   event.preventDefault()
+  const createdAnecdote = await create(asObject(event.target.content.value))
   const obj = {
     type: 'CREATE',
-    data: event.target.content.value,
+    data: createdAnecdote,
   }
   event.target.content.value = ''
   return obj

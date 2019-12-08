@@ -7,7 +7,7 @@ async function getAll() {
 }
 
 async function create(anecdote) {
-
+  return (await axios.post(url, anecdote)).data
 }
 
 export { getAll, create }
