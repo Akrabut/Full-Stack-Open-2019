@@ -17,14 +17,4 @@ const asObject = (anecdote) => {
   }
 }
 
-const filterAnecdotes = (anecdotes, textToFind = '') => {
-  console.log(textToFind);
-  const toFilter = Array.from(anecdotes)
-  return toFilter.filter(anecdote => anecdote.content.includes(textToFind))
-}
-
-function sortAnecdotes(anecdotes) {
-  return anecdotes.sort((a, b) => b.votes - a.votes)
-}
-
-export { sortAnecdotes, anecdotesAtStart, asObject, filterAnecdotes }
+export { anecdotesAtStart, asObject }

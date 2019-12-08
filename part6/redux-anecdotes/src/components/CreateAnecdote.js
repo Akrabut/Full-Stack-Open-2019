@@ -1,17 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux'
+
+function createAnecdote(event) {
+  event.preventDefault()
+  const obj = {
+    type: 'CREATE',
+    data: event.target.content.value,
+  }
+  event.target.content.value = ''
+  return obj
+}
+
+function handleCreate(event, stateAlert, connectedCreate) {
+  connectedCreate(event)
+  stateAlert()
+}
 
 const CreateAnecdote = props => {
-  function handleCreate(event) {
-    event.preventDefault()
-    props.dispatch({
-      type: 'CREATE-ANECDOTE',
-      data: event.target.content.value,
-    })
-    event.target.content.value = ''
-  }
-
   return (
-    <form id="new-anecdote-form" onSubmit={handleCreate}>
+    <form id="new-anecdote-form" onSubmit={(event) => handleCreate(event, props.stateAlert, props.createAnecdote)}>
       <h2 id="create-anecdote-header">Create new anecdote</h2>
       <input type="text" name="content" required></input>
       <button type="submit">create</button>
@@ -19,4 +26,9 @@ const CreateAnecdote = props => {
   )
 }
 
-export default CreateAnecdote
+const mapDispatchToProps = {
+  createAnecdote,
+}
+
+const connectedCreateAnecdote = connect(null, mapDispatchToProps)(CreateAnecdote)
+export default connectedCreateAnecdote

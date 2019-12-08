@@ -1,21 +1,16 @@
-import { anecdotesAtStart, sortAnecdotes, asObject, filterAnecdotes } from '../helpers/anecdoteHelper'
+import { anecdotesAtStart, asObject } from '../helpers/anecdoteHelper'
 
-const initialState = sortAnecdotes(anecdotesAtStart.map(asObject))
+const initialState = anecdotesAtStart.map(asObject)
 
 export const anecdoteReducer = (state = initialState, action) => {
-  state['filtered'] = state['filtered'] || []
+  console.log(action.data);
   switch (action.type) {
     case 'VOTE':
-      state = sortAnecdotes(state.map(anecdote =>
-        anecdote.id === action.data.id ? action.data : anecdote))
-      state['filtered'] = filterAnecdotes(state, state['filterBy'])
+      state = state.map(anecdote =>
+        anecdote.id === action.data.id ? action.data : anecdote)
       return state
-    case 'CREATE-ANECDOTE':
+    case 'CREATE':
       return state.concat(asObject(action.data))
-    case 'FILTER':
-      state['filterBy'] = action.data
-      state['filtered'] = filterAnecdotes(state, state['filterBy'])
-      return state
     default:
       return state
   }
