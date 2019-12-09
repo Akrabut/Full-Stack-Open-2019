@@ -4,7 +4,7 @@ import { anecdoteHelper } from '../helpers/anecdoteHelper'
 
 function handleVote(anecdote, vote, set) {
   vote(anecdote)
-  set(anecdote.content)
+  anecdoteHelper.setNotification(anecdote.content, 5000, set)
 }
 
 const Anecdote = props => {

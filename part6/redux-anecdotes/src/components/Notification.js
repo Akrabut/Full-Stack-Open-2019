@@ -18,7 +18,7 @@ const Notification = props => {
 
   function setNotification() {
     return (props.notification
-      ? generateDiv(props.notification, style)
+      ? generateDiv(`You voted for "${props.notification}"`, style)
       : generateDiv('', null)
     )
   }

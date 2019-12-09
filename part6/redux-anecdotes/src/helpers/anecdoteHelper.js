@@ -31,10 +31,19 @@ function vote(anecdote) {
   }
 }
 
+function setNotification(content, time, setCallback) {
+  setCallback(content)
+  setTimeout(() => {
+    setCallback('')
+  }, time)
+}
+
 function set(content) {
-  return {
-    type: 'SET',
-    data: content
+  return async dispatch => {
+    dispatch({
+      type: 'SET',
+      data: content
+    })
   }
 }
 
@@ -59,5 +68,5 @@ function createAnecdote(event, createCallback) {
 }
 
 export const createHelper = { create, createAnecdote }
-export const anecdoteHelper = { vote, set }
+export const anecdoteHelper = { vote, set, setNotification }
 export const anecdotesHelper = { setAll, stateAlert }
