@@ -1,5 +1,5 @@
 import { getAll } from '../services/anecdotes'
-import { postAnecdote } from '../services/anecdotes'
+import { postAnecdote, updateAnecdote } from '../services/anecdotes'
 
 const asObject = (anecdote) => {
   const getId = () => (100000 * Math.random()).toFixed(0)
@@ -22,12 +22,12 @@ function setAll() {
 }
 
 function vote(anecdote) {
-  return {
-    type: 'VOTE',
-    data: {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    }
+  return async dispatch => {
+    const updatedAnecdote = await updateAnecdote(anecdote)
+    dispatch({
+      type: 'VOTE',
+      data: updatedAnecdote,
+    })
   }
 }
 

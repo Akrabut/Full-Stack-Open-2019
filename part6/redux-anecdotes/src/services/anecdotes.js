@@ -10,4 +10,8 @@ async function postAnecdote(anecdote) {
   return (await axios.post(url, anecdote)).data
 }
 
-export { getAll, postAnecdote }
+async function updateAnecdote(anecdote) {
+  return (await axios.patch(`${url}/${anecdote.id}`, { votes: anecdote.votes + 1 })).data
+}
+
+export { getAll, postAnecdote, updateAnecdote }
