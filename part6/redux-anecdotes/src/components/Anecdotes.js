@@ -3,46 +3,42 @@ import Anecdote from './Anecdote'
 import Filter from './Filter'
 import CreateAnecdote from './CreateAnecdote'
 import { connect } from 'react-redux'
-import { getAll } from '../services/anecdotes'
 import { anecdotesHelper } from '../helpers/anecdoteHelper'
 import { handleFilter } from '../helpers/filterHelper'
 
 const Anecdotes = props => {
   useEffect(() => {
-    getAll().then(anecdotes => {
-      props.setAll(anecdotes)
-      props.handleFilter(anecdotes)
-    })
+    props.setAll()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function stateAlert() {
-    console.log(props.anecdotes);
-    props.handleFilter(props.anecdotes, props.filter.filterBy)
-  }
+  useEffect(() => {
+    anecdotesHelper.stateAlert(props.handleFilter, props.anecdotes, props.filter.filterBy)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.anecdotes])
 
   return (
     <div id="anecdotes">
       <Filter handler={props.handleFilter} anecdotes={props.anecdotes}></Filter>
       <ul id="anecdote-list">
         {props.filter.filtered.map(anecdote => (
-          <Anecdote key={anecdote.id} anecdote={anecdote} vote={props.vote} stateAlert={stateAlert}/>
+          <Anecdote key={anecdote.id} anecdote={anecdote} vote={props.vote}/>
         ))}
       </ul>
-      <CreateAnecdote stateAlert={stateAlert}/>
+      <CreateAnecdote/>
     </div>
   )
 }
 
 const mapDispatchToProps = {
   handleFilter, 
-  setAll: anecdotesHelper.setAll
+  setAll: anecdotesHelper.setAll,
 }
 
 function mapStateToProps(state) {
   return {
     anecdotes: state.anecdote,
-    filter: state.filter
+    filter: state.filter,
   }
 }
 

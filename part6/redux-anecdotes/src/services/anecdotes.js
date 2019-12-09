@@ -6,8 +6,8 @@ async function getAll() {
   return (await axios.get(url)).data;
 }
 
-async function create(anecdote) {
+async function postAnecdote(anecdote) {
   return (await axios.post(url, anecdote)).data
 }
 
-export { getAll, create }
+export { getAll, postAnecdote }

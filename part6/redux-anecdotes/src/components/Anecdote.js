@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { anecdoteHelper } from '../helpers/anecdoteHelper'
 
-function handleVote(anecdote, vote, stateAlert, set) {
+function handleVote(anecdote, vote, set) {
   vote(anecdote)
-  stateAlert()
   set(anecdote.content)
 }
 
@@ -14,7 +13,7 @@ const Anecdote = props => {
       {props.anecdote.content}      
       <br></br>
       has {props.anecdote.votes}
-      <button id="vote-anecdote" onClick={() => handleVote(props.anecdote, props.vote, props.stateAlert, props.set)}>vote</button>
+      <button id="vote-anecdote" onClick={() => handleVote(props.anecdote, props.vote, props.set)}>vote</button>
     </li>
   )
 }

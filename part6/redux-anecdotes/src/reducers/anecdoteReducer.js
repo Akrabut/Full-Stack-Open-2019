@@ -6,7 +6,7 @@ export const anecdoteReducer = (state = [], action) => {
       return state
     case 'CREATE':
       return state.concat(action.data)
-    case 'SET-ALL':
+    case 'SET_ALL':
       return action.data
     default:
       return state

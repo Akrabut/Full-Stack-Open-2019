@@ -1,27 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { createHelper } from '../helpers/anecdoteHelper'
-import { create } from '../services/anecdotes'
-
-async function createAnecdote(event) {
-  event.preventDefault()
-  const createdAnecdote = await create(createHelper.asObject(event.target.content.value))
-  const obj = {
-    type: 'CREATE',
-    data: createdAnecdote,
-  }
-  event.target.content.value = ''
-  return obj
-}
-
-function handleCreate(event, stateAlert, connectedCreate) {
-  connectedCreate(event)
-  stateAlert()
-}
 
 const CreateAnecdote = props => {
   return (
-    <form id="new-anecdote-form" onSubmit={(event) => handleCreate(event, props.stateAlert, props.createAnecdote)}>
+    <form id="new-anecdote-form" onSubmit={(event) => createHelper.createAnecdote(event, props.create)}>
       <h2 id="create-anecdote-header">Create new anecdote</h2>
       <input type="text" name="content" required></input>
       <button type="submit">create</button>
@@ -30,7 +13,7 @@ const CreateAnecdote = props => {
 }
 
 const mapDispatchToProps = {
-  createAnecdote,
+  create: createHelper.create,
 }
 
 const connectedCreateAnecdote = connect(null, mapDispatchToProps)(CreateAnecdote)

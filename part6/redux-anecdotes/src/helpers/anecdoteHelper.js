@@ -1,3 +1,6 @@
+import { getAll } from '../services/anecdotes'
+import { postAnecdote } from '../services/anecdotes'
+
 const asObject = (anecdote) => {
   const getId = () => (100000 * Math.random()).toFixed(0)
 
@@ -8,10 +11,13 @@ const asObject = (anecdote) => {
   }
 }
 
-function setAll(anecdotes) {
-  return {
-    type: 'SET-ALL',
-    data: anecdotes,
+function setAll() {
+  return async dispatch => {
+    const anecdotes = await getAll()
+    dispatch({
+      type: 'SET_ALL',
+      data: anecdotes,
+    })
   }
 }
 
@@ -32,6 +38,26 @@ function set(content) {
   }
 }
 
-export const createHelper = { asObject }
+function create(content) {
+  return async dispatch => {
+    const createdAnecdote = await postAnecdote(asObject(content))
+    dispatch({
+      type: 'CREATE',
+      data: createdAnecdote,
+    })
+  }
+}
+
+function stateAlert(handleFilter, anecdotes, filterBy) {
+  handleFilter(anecdotes, filterBy)
+}
+
+function createAnecdote(event, createCallback) {
+  event.preventDefault()
+  createCallback(event.target.content.value)
+  event.target.content.value = ''
+}
+
+export const createHelper = { create, createAnecdote }
 export const anecdoteHelper = { vote, set }
-export const anecdotesHelper = { setAll }
+export const anecdotesHelper = { setAll, stateAlert }
