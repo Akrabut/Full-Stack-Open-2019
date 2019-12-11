@@ -30,7 +30,6 @@ const Menu = () => {
 
   return (
     <Router>
-      <div>
         <div>
           <Link to='/anecdotes' style={padding}>anecdotes</Link>
           <Link to='/create_new' style={padding}>create new</Link>
@@ -39,7 +38,6 @@ const Menu = () => {
         <Route exact path='/anecdotes' render={() => <AnecdoteList anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>}></Route>
         <Route path='/about' render={() => <About/>}></Route>
         <Route path='/create_new' render={() => <CreateNew anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>}></Route>
-      </div>
     </Router>
   )
 }

@@ -7,12 +7,10 @@ import Home from './Home'
 const HomeRedirect = () => {
   return (
     <Router>
-      <div>
         <div>
           <Link to='/'>home</Link>
         </div>
         <Route exact path='/' render={() => <Home/>}></Route>
-      </div>
     </Router>
   )
 }
