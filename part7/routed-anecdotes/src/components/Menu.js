@@ -6,7 +6,7 @@ import CreateNew from './CreateNew'
 import About from './About'
 import AnecdoteList from './AnecdoteList'
 
-const Menu = () => {
+const Menu = ({ setNotif }) => {
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -37,7 +37,7 @@ const Menu = () => {
         </div>
         <Route exact path='/anecdotes' render={() => <AnecdoteList anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>}></Route>
         <Route path='/about' render={() => <About/>}></Route>
-        <Route path='/create_new' render={() => <CreateNew anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>}></Route>
+        <Route path='/create_new' render={() => <CreateNew anecdotes={anecdotes} setAnecdotes={setAnecdotes} setNotif={setNotif}/>}></Route>
     </Router>
   )
 }

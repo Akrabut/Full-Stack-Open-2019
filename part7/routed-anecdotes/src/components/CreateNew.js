@@ -35,6 +35,7 @@ const CreateNew = (props) => {
     )
     setEmpty(setContent, setAuthor, setInfo)
     setSubmitted(true)
+    props.setNotif(`"${content}" created!`)
   }
 
   function toDisplay() {
