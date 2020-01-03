@@ -101,7 +101,17 @@ const typeDefs = gql`
   }
   type Author {
     name: String!
+    id: ID!
+    born: Int
     bookCount: Int!
+  }
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
   }
 `;
 
@@ -118,9 +128,22 @@ function allAuthors() {
   return authors.map(author => (
     {
       name: author.name,
+      born: author.born,
       bookCount: map.get(author.name)
     }
   ));
+}
+
+function addAuthor(author, uuid) {
+  authors.push({ name: author, id: uuid() })
+}
+
+function addBook(root, args) {
+  const uuid = require('uuid/v1');
+  if (!authors.includes(args.author)) addAuthor(args.author, uuid)
+  const book = { ...args, id: uuid() };
+  books.push(book);
+  return book
 }
 
 function allBooks(root, args) {
@@ -140,8 +163,11 @@ const resolvers = {
     bookCount: () => books.length,
     authorCount: () => authors.length,
     allBooks: allBooks,
-    allAuthors: allAuthors
+    allAuthors: allAuthors,
   },
+  Mutation: {
+    addBook: addBook,
+  }
 };
 
 module.exports = { typeDefs, resolvers };
