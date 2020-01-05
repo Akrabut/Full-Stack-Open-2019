@@ -152,7 +152,6 @@ function addBook(root, args) {
 
 function editAuthor(root, args) {
   const i = authors.findIndex(author => author.name === args.name);
-  console.log(i);
   if (i === -1) return null;
   authors[i].born = args.setBornTo;
   return authors[i];
